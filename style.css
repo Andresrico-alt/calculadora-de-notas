@@ -1,0 +1,160 @@
+/* Importamos la fuente 'Poppins' desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden; /* Evita barras de scroll innecesarias */
+    background: #1c1c1c; /* Color de fondo oscuro si la imagen no carga */
+}
+
+/* Bloque NUEVO y CORREGIDO */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('escudo-unicordoba.png');
+    
+    /* CAMBIOS PRINCIPALES AQUÍ */
+    background-size: 300px auto; /* Anchura de 300px, altura automática */
+    background-repeat: no-repeat; /* Para que la imagen no se repita */
+    
+    background-position: center;
+    filter: blur(2px) brightness(0.7); /* Menos desenfoque para que se vea mejor */
+    z-index: -1;
+}
+
+/* Contenedor de la calculadora con efecto cristal */
+.calculator-container {
+    width: 100%;
+    max-width: 380px;
+    padding: 30px 40px;
+    background: rgba(255, 255, 255, 0.1); /* Fondo semi-transparente */
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px); /* El efecto de desenfoque del fondo */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+    color: #fff;
+}
+
+h2 {
+    font-weight: 600;
+    font-size: 24px;
+    margin-bottom: 25px;
+}
+
+/* Estilo de los grupos de entrada */
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: 300;
+    margin-bottom: 8px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+input[type="number"] {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 12px 15px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: #fff;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+/* Estilo para el texto de placeholder */
+input[type="number"]::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Efecto al seleccionar el input */
+input[type="number"]:focus {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Grupo de botones */
+.button-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+button {
+    flex: 1; /* Ocupa el espacio disponible */
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Botón principal de Calcular */
+#calcularBtn {
+    background-color: #28a745; /* Verde */
+    color: #fff;
+}
+
+#calcularBtn:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+}
+
+/* Botón secundario de Limpiar */
+#limpiarBtn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: #fff;
+}
+
+#limpiarBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Área de resultados */
+.result-display {
+    margin-top: 25px;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    min-height: 50px;
+    line-height: 1.5;
+    transition: all 0.3s ease;
+}
+
+/* Mensajes de error en tiempo real */
+.error-message {
+    color: #ffcdd2; /* Rojo claro */
+    font-size: 12px;
+    margin-top: 5px;
+    height: 15px;
+    text-align: left;
+}

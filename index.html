@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Notas Unicor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="calculator-container">
+        <h2>Calculadora de Notas</h2>
+        
+        <div class="input-group">
+            <label for="corte1">Primer Corte (33%)</label>
+            <input type="number" id="corte1" placeholder="0.0" step="0.1" min="0" max="5">
+            <p class="error-message" id="error-corte1"></p>
+        </div>
+        
+        <div class="input-group">
+            <label for="corte2">Segundo Corte (33%)</label>
+            <input type="number" id="corte2" placeholder="0.0" step="0.1" min="0" max="5">
+            <p class="error-message" id="error-corte2"></p>
+        </div>
+        
+        <div class="button-group">
+            <button id="calcularBtn">Calcular</button>
+            <button id="limpiarBtn" type="button">Limpiar</button>
+        </div>
+        
+        <div id="resultado" class="result-display">
+            </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
