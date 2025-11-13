@@ -1,0 +1,411 @@
+/* Importamos la fuente 'Poppins' desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden; 
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* ================================================= */
+/* 🌙 MODOS DE TEMA (Claro/Oscuro) */
+/* ================================================= */
+
+/* Modo Oscuro (dark-mode - Por defecto) */
+.dark-mode {
+    background: #1c1c1c;
+    color: #fff;
+}
+.dark-mode .calculator-container {
+    background: rgba(255, 255, 255, 0.1); 
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.dark-mode input[type="number"] {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+.dark-mode label {
+    color: rgba(255, 255, 255, 0.8);
+}
+.dark-mode #limpiarBtn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: #fff;
+}
+.dark-mode #limpiarBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+.dark-mode .history-placeholder {
+    color: #aaa;
+}
+
+
+/* Modo Claro (light-mode) */
+.light-mode {
+    background: #f0f0f0;
+    color: #333;
+}
+.light-mode .calculator-container {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.light-mode input[type="number"] {
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+.light-mode label {
+    color: #333;
+}
+.light-mode #limpiarBtn {
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    color: #333;
+}
+.light-mode #limpiarBtn:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+.light-mode .history-placeholder {
+    color: #666;
+}
+/* Revertir el color del texto de la barra de error en modo claro */
+.light-mode .error-message {
+    color: #dc3545; /* Rojo fuerte */
+}
+
+/* Fondo con imagen (aplica a ambos modos, si la imagen existe) */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('escudo-unicordoba.png');
+    background-size: 300px auto; 
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: blur(2px) brightness(0.7);
+    z-index: -1;
+}
+
+.calculator-container {
+    width: 100%;
+    max-width: 380px;
+    padding: 30px 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    text-align: center;
+}
+
+h2 {
+    font-weight: 600;
+    font-size: 24px;
+    margin-bottom: 25px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+    position: relative;
+}
+
+/* Animación de sacudida para error */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.input-group.error-shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: 300;
+    margin-bottom: 8px;
+}
+
+input[type="number"] {
+    width: 100%;
+    border-radius: 8px;
+    padding: 12px 15px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input[type="number"]::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Borde animado */
+.input-group::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: #28a745; /* Verde */
+    transition: width 0.3s ease;
+}
+.input-group:focus-within::after {
+    width: 100%;
+}
+
+
+.button-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+/* Botón de tema (FUERA DE LA CALCULADORA) */
+.theme-toggle-btn {
+    position: fixed; /* Lo fija a la ventana */
+    top: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+}
+.light-mode .theme-toggle-btn {
+    background: rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+.theme-toggle-btn:hover {
+    transform: scale(1.05);
+}
+
+
+button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative; /* Para las partículas */
+    overflow: hidden; /* Para que las estrellas no se salgan del botón al inicio */
+}
+
+/* Botón principal */
+#calcularBtn {
+    background-color: #28a745;
+    color: #fff;
+}
+#calcularBtn:hover {
+    background-color: #218838;
+}
+
+/* Botón secundario */
+#limpiarBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Animación de Salto para los botones */
+@keyframes jump-and-fall {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-8px); } /* Salta un poco */
+    100% { transform: translateY(0); }
+}
+
+.button-jump {
+    animation: jump-and-fall 0.4s ease-out; /* Aplica la animación */
+}
+
+
+/* === Animación de Partículas (Estrellas) === */
+.particle-star {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: gold;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+}
+
+@keyframes fly-out {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--x), var(--y)) scale(0.2);
+    }
+}
+
+/* Animación de los Resultados */
+.result-display {
+    margin-top: 25px;
+    padding: 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    transition: all 0.4s ease-out;
+    opacity: 0;
+    transform: scale(0.95);
+    min-height: 0;
+    position: relative; 
+    text-align: center;
+}
+.result-display.visible {
+    opacity: 1;
+    transform: scale(1);
+    min-height: 70px;
+}
+.result-display::before {
+    content: '';
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    opacity: 0;
+    transform: translateY(-15px);
+    transition: all 0.3s ease-out 0.2s;
+}
+.result-display.visible::before {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- CLASES DE ESTADO --- */
+.result-display.estado-aprobado {
+    background: rgba(40, 167, 69, 0.2);
+    border: 1px solid rgba(40, 167, 69, 0.5);
+    color: #c8e6c9;
+}
+.result-display.estado-aprobado::before {
+    content: '¡FELICITACIONES! 🎉';
+    color: #28a745;
+}
+.result-display.estado-reprobado {
+    background: rgba(220, 53, 69, 0.2);
+    border: 1px solid rgba(220, 53, 69, 0.5);
+    color: #ffcdd2;
+}
+.result-display.estado-reprobado::before {
+    content: 'SIGUE INTENTANDO 😞';
+    color: #dc3545;
+}
+.result-display.estado-pendiente {
+    background: rgba(255, 193, 7, 0.2);
+    border: 1px solid rgba(255, 193, 7, 0.5);
+    color: #fff;
+}
+.dark-mode .result-display.estado-pendiente {
+     color: #fff;
+}
+.light-mode .result-display.estado-pendiente {
+     color: #333;
+}
+
+.result-display.estado-pendiente::before {
+    content: '¡ÚLTIMO ESFUERZO! 💪';
+    color: #ffc107;
+}
+
+.result-display.estado-error {
+    background: rgba(220, 53, 69, 0.2);
+    border: 1px solid rgba(220, 53, 69, 0.5);
+    color: #ffcdd2;
+}
+.result-display.estado-error::before {
+    content: 'ERROR DE INGRESO ❌';
+    color: #dc3545;
+}
+
+/* Colores para el número final basado en el valor (NUEVO) */
+.score-color-aprobado { color: #28a745; font-weight: 700; } /* Verde para 3.0+ */
+.score-color-pendiente { color: #ffc107; font-weight: 700; } /* Amarillo para 1.0 a 2.99 */
+.score-color-critico { color: #dc3545; font-weight: 700; } /* Rojo para menos de 1.0 */
+
+
+/* Mensajes de error en tiempo real */
+.error-message {
+    color: #ffcdd2;
+    font-size: 12px;
+    margin-top: 5px;
+    height: 15px;
+    text-align: left;
+}
+
+/* --- HISTORIAL DE CÁLCULOS --- */
+.history-section {
+    margin-top: 35px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: left;
+}
+
+.history-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+#historyList {
+    list-style: none;
+    padding: 0;
+    max-height: 150px;
+    overflow-y: auto;
+    font-size: 14px;
+}
+
+#historyList::-webkit-scrollbar {
+    width: 6px;
+}
+
+#historyList::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+#historyList li {
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.light-mode #historyList {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+.light-mode #historyList::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+}
+.light-mode #historyList li {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
